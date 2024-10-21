@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Facebook Post Template</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <div class="post-container">
+    <div class="background">
+      <img id="template-image"
+        src="https://images.takeshape.io/5da2b4d5-59f6-412a-82c3-f6a272b532be/dev/bcdbc8fb-c197-4c09-b1a5-24c2ce7e5731/Big%20Win.png"
+        alt="Template Background">
+      <div class="text-overlay" contenteditable="true" id="text-overlay">
+        ჩაწერეთ პოსტის ტექსტი აქ
+      </div>
+      <div class="screenshot-container" id="screenshot-container"></div>
+    </div>
+    <input type="file" id="screenshot-upload" accept="image/*">
+    <button id="clickable" onclick="downloadPost()">ფოტოს გადმოწერა</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+<style>
+  @font-face {
+    font-family: 'Noto Sans ambassadori';
+    src: url('https://usernamenotavailable12.github.io/Font-Repository/NotoSansAmbassadori-Bold.ttf');
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #100718;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Noto Sans ambassadori' !important;
+  }
+
+  .post-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Noto Sans ambassadori' !important;
+  }
+
+  .background {
+    position: relative;
+    width: 600px;
+    height: 600px;
+    background-color: #fff;
+    font-family: 'Noto Sans ambassadori' !important;
+  }
+
+  #template-image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    font-family: 'Noto Sans ambassadori' !important;
+  }
+
+  .text-overlay {
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    z-index: 2;
+    cursor: text;
+    text-align: center;
+    font-family: 'Noto Sans ambassadori' !important;
+  }
+
+  .screenshot-container {
+    position: absolute;
+    bottom: 160px;
+    left: 60px;
+    right: 60px;
+    height: 40%;
+    z-index: 2;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  input[type="file"] {
+    margin-top: 10px;
+    font-family: 'Noto Sans ambassadori' !important;
+  }
+
+  #screenshot-upload {
+    all: unset !important;
+    font-size: 0px !important;
+    width: 100% !important;
+    -webkit-mask-image: linear-gradient(black 87%, transparent 87%) !important;
+    mask-image: linear-gradient(black 89%, transparent 89%) !important;
+    font-family: 'Noto Sans ambassadori' !important;
+
+    &:before {
+      font-size: 14px !important;
+      content: 'ატვირთე სქრინშოთი';
+      display: block;
+      text-align: center;
+      background: #2b133e;
+      color: white;
+      border-radius: 10px;
+      padding: 7px;
+      border: #cc29cc67 2px solid;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+  }
+
+  #clickable {
+    text-align: center;
+    background: #2b133e;
+    color: white;
+    border-radius: 10px;
+    padding: 7px;
+    border: #cc29cc67 2px solid;
+    cursor: pointer;
+    font-family: 'Noto Sans ambassadori' !important;
+  }
+</style>
+<script>
+  // Upload a screenshot and display it on the template
+  document.getElementById("screenshot-upload").addEventListener("change", function (event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const screenshotContainer = document.getElementById("screenshot-container");
+        screenshotContainer.style.backgroundImage = `url(${e.target.result})`;
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  // Function to download the post with the applied text and screenshot
+  function downloadPost() {
+    const postContainer = document.querySelector(".background");
+    html2canvas(postContainer, {
+      useCORS: true, // Enable cross-origin images
+      allowTaint: true, // Allow tainted images
+    }).then(canvas => {
+      const link = document.createElement("a");
+      link.href = canvas.toDataURL("image/png");
+      link.download = "facebook-post.png";
+      link.click();
+    });
+  }
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+</html>
