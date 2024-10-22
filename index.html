@@ -12,14 +12,21 @@
   <div class="post-container">
     <div class="background">
       <img id="template-image"
-        src="https://images.takeshape.io/5da2b4d5-59f6-412a-82c3-f6a272b532be/dev/bcdbc8fb-c197-4c09-b1a5-24c2ce7e5731/Big%20Win.png"
+        src="https://images.takeshape.io/5da2b4d5-59f6-412a-82c3-f6a272b532be/dev/e344a633-329c-48e7-8b04-8a61943b9b57/срфьзшщт%20ещзхгкшф.png"
         alt="Template Background">
+      <div class="text-overlay-head" contenteditable="true" id="text-overlay-head">
+        აქ ჩაწერეთ სათაური
+      </div>
       <div class="text-overlay" contenteditable="true" id="text-overlay">
-        ჩაწერეთ პოსტის ტექსტი აქ
+        აქ ჩაწერეთ პოსტის ტექსტი
       </div>
       <div class="screenshot-container" id="screenshot-container"></div>
     </div>
     <input type="file" id="screenshot-upload" accept="image/*">
+    <div class="color-picker-wrapper">
+      <label class="background-color-picker-head" for="background-color-picker">აირჩიეთ ბეგრაუნდის ფერი</label>
+      <input type="color" id="background-color-picker" value="#2b133e">
+    </div>
     <button id="clickable" onclick="downloadPost()">ფოტოს გადმოწერა</button>
   </div>
 
@@ -54,7 +61,7 @@
     position: relative;
     width: 600px;
     height: 600px;
-    background-color: #fff;
+    background-color: var(--image-background-color, #2b133e);
     font-family: 'Noto Sans ambassadori' !important;
   }
 
@@ -69,7 +76,22 @@
 
   .text-overlay {
     position: absolute;
-    top: 100px;
+    top: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 21px;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    z-index: 2;
+    cursor: text;
+    text-align: center;
+    font-family: 'Noto Sans ambassadori' !important;
+  }
+
+  .text-overlay-head {
+    position: absolute;
+    top: 5px;
     left: 50%;
     transform: translateX(-50%);
     color: white;
@@ -108,8 +130,8 @@
     font-family: 'Noto Sans ambassadori' !important;
 
     &:before {
-      font-size: 14px !important;
-      content: 'ატვირთე სქრინშოთი';
+      font-size: .8rem !important;
+      content: 'ატვირთე ფოტო';
       display: block;
       text-align: center;
       background: #2b133e;
@@ -127,13 +149,46 @@
     background: #2b133e;
     color: white;
     border-radius: 10px;
-    padding: 7px;
+    padding: 7px 12px 7px 12px;
     border: #cc29cc67 2px solid;
     cursor: pointer;
     font-family: 'Noto Sans ambassadori' !important;
+    font-size: .8rem;;
   }
+  .color-picker-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+      background: #2b133e;
+      color: white;
+      border-radius: 10px;
+      padding: 7px;
+      border: #cc29cc67 2px solid;
+      cursor: pointer;
+      font-family: 'Noto Sans ambassadori' !important;
+      font-size: .8rem;
+      margin-bottom: 6px;
+    .background-color-picker-head {
+      padding: 7px;
+    }
+    #background-color-picker {
+      outline: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+}
 </style>
 <script>
+  // Change background color based on user selection
+  const colorPicker = document.getElementById("background-color-picker");
+  colorPicker.addEventListener("input", function () {
+    document.documentElement.style.setProperty('--image-background-color', this.value);
+  });
+
   // Upload a screenshot and display it on the template
   document.getElementById("screenshot-upload").addEventListener("change", function (event) {
     const file = event.target.files[0];
@@ -151,8 +206,8 @@
   function downloadPost() {
     const postContainer = document.querySelector(".background");
     html2canvas(postContainer, {
-      useCORS: true, // Enable cross-origin images
-      allowTaint: true, // Allow tainted images
+      useCORS: true,
+      allowTaint: true,
     }).then(canvas => {
       const link = document.createElement("a");
       link.href = canvas.toDataURL("image/png");
