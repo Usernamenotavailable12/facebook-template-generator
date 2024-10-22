@@ -151,10 +151,8 @@
 
   #screenshot-upload {
     all: unset !important;
-    font-size: 0px !important;
+    font-size: 10px !important;
     width: 100% !important;
-    -webkit-mask-image: linear-gradient(black 87%, transparent 87%) !important;
-    mask-image: linear-gradient(black 89%, transparent 89%) !important;
     font-family: 'Noto Sans ambassadori' !important;
 
     &:before {
@@ -170,6 +168,14 @@
       cursor: pointer;
       margin-top: 10px;
     }
+  }
+
+  ::-webkit-file-upload-button {
+    display: none;
+  }
+
+  ::file-selector-button {
+    display: none;
   }
 
   #clickable {
