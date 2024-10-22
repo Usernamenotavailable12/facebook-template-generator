@@ -47,6 +47,19 @@
     height: 100vh;
     margin: 0;
     font-family: 'Noto Sans ambassadori' !important;
+    @media (max-width: 610px) {
+      width: 100%;
+      height: 100%;
+      max-width: 768px;
+      .post-container {
+        width: 300px;
+        margin-top: 20px;
+        .background {
+          width: 350px;
+          height: 350px;
+        }
+      }
+    }
   }
 
   .post-container {
